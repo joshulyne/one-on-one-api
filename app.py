@@ -7,6 +7,8 @@ app = FastAPI()
 origins = [
     "http://localhost",
     "http://localhost:3000",
+    "https://one-on-one-ui.vercel.app",
+    "https://one-on-one-ui.vercel.app/",
 ]
 
 origin_regex = "http://(192|10)\.(168|10)\..*:3000"

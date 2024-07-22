@@ -7,6 +7,8 @@ from reportlab.pdfgen import canvas
 import io
 from fastapi.responses import StreamingResponse
 
+from lib.llm_lib import invoke_rag_chain
+
 
 DATEFORMATSTR = "%Y-%m-%d"
 
@@ -52,7 +54,13 @@ def create_agenda_pdf(agenda_input: AgendaInput):
 
 
 def download_agenda(agenda_input: AgendaInput) -> StreamingResponse:
+    agenda_items = ", ".join([item.value for item in agenda_input.agendaItems])
+    invoke_rag_chain(
+        f"Create a sample meeting agenda for the software engineer {agenda_input.user} that contains: {agenda_items}"
+    )
+
     pdf_buffer = create_agenda_pdf(agenda_input)
+
     return StreamingResponse(
         pdf_buffer,
         media_type="application/pdf",
